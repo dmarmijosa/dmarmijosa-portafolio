@@ -1,59 +1,47 @@
-# DmarmijosaPortafolio
+# Danny Armijos — Portafolio
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.1.
+Portafolio personal de **Danny Armijos**, Software Engineer & Full Stack Developer
+(Angular · NestJS · React Native). Single-page application construida con **Angular 22**
+(standalone, signals, zoneless-ready) y **Tailwind CSS v4**, con efectos 3D interactivos.
 
-## Development server
+🔗 Web: https://www.danny-armijos.com · LinkedIn: https://www.linkedin.com/in/dmarmijosa
 
-To start a local development server, run:
+## Características
 
-```bash
-ng serve
+- **Hero 3D** con parallax del puntero, tarjeta con tilt 3D y badges flotantes.
+- **Tarjetas con tilt 3D** (`appTilt`) en proyectos, skills, certificaciones y testimonios.
+- **Animaciones de scroll** con IntersectionObserver (`appReveal`), respetando `prefers-reduced-motion`.
+- **Filtro de proyectos** por categoría con `signal` + `computed`.
+- Proyectos reales verificados en producción (todos responden HTTP 200).
+- Diseño glassmorphism, gradientes animados y accesible (ARIA, contraste, foco).
+
+## Arquitectura
+
+```
+src/app/
+├── models/         # Interfaces del dominio (fuente de verdad de tipos)
+├── data/           # Contenido (perfil, proyectos, experiencia, certificaciones)
+├── directives/     # tilt.directive (3D), reveal.directive (scroll)
+├── components/     # navbar, hero, about, skills, projects, experience,
+│                   # certifications, contact, icon
+└── app.ts          # Composición de secciones
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Desarrollo
 
 ```bash
-ng generate component component-name
+npm install
+npm start          # ng serve → http://localhost:4200
+npm run build      # build de producción en dist/dmarmijosa-portafolio/browser
+npm test           # tests con Vitest
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Despliegue (Netlify)
 
-```bash
-ng generate --help
-```
+El repositorio incluye `netlify.toml` con el comando de build, el directorio
+`dist/dmarmijosa-portafolio/browser` y el redirect SPA. Conecta el repo en Netlify
+o usa `netlify deploy --prod`.
 
-## Building
+---
 
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Stack: Angular 22 · Tailwind CSS v4 · TypeScript · Signals · CSS 3D Transforms.
