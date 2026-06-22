@@ -1,9 +1,10 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   signal,
 } from '@angular/core';
-import { PROFILE } from '../data/portfolio.data';
+import { GetProfileUseCase } from '../../../core/application/use-cases/get-profile.use-case';
 
 interface NavLink {
   readonly id: string;
@@ -23,21 +24,17 @@ interface NavLink {
       [class.py-4]="!scrolled()"
     >
       <nav
-        class="mx-auto flex max-w-6xl items-center justify-between rounded-2xl px-5 transition-all duration-300"
+        class="mx-4 flex items-center justify-between rounded-2xl px-5 transition-all duration-300"
         [class.glass-strong]="scrolled()"
         [class.py-3]="scrolled()"
         [class.py-2]="!scrolled()"
-        [style.margin-inline]="scrolled() ? '1rem' : '1rem'"
         aria-label="Navegación principal"
       >
-        <a
-          href="#top"
-          class="font-display text-lg font-bold tracking-tight text-white"
-        >
+        <a href="#top" class="font-display text-lg font-bold tracking-tight text-white">
           <span class="text-gradient">DA</span><span class="text-brand-400">.</span>
         </a>
 
-        <ul class="hidden items-center gap-1 md:flex">
+        <ul class="hidden items-center gap-1 lg:flex">
           @for (link of links; track link.id) {
             <li>
               <a
@@ -63,13 +60,14 @@ interface NavLink {
   `,
 })
 export class NavbarComponent {
-  protected readonly profile = PROFILE;
+  protected readonly profile = inject(GetProfileUseCase).profile();
   protected readonly scrolled = signal(false);
 
   protected readonly links: readonly NavLink[] = [
     { id: 'about', label: 'Sobre mí' },
     { id: 'skills', label: 'Skills' },
     { id: 'projects', label: 'Proyectos' },
+    { id: 'apps', label: 'Apps' },
     { id: 'experience', label: 'Experiencia' },
     { id: 'certs', label: 'Certificaciones' },
     { id: 'contact', label: 'Contacto' },

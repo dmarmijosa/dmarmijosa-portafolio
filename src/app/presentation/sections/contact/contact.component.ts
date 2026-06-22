@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { PROFILE } from '../data/portfolio.data';
-import { RevealDirective } from '../directives/reveal.directive';
-import { IconComponent } from './icon.component';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { GetProfileUseCase } from '../../../core/application/use-cases/get-profile.use-case';
+import { RevealDirective } from '../../shared/directives/reveal.directive';
+import { IconComponent } from '../../shared/components/icon.component';
 
 @Component({
   selector: 'app-contact',
@@ -53,7 +53,7 @@ import { IconComponent } from './icon.component';
       </div>
 
       <footer class="mt-16 border-t border-white/10 pt-8 text-center text-sm text-slate-500">
-        <p>© {{ year }} {{ profile.name }}. Diseñado y desarrollado con Angular & Tailwind CSS.</p>
+        <p>© {{ year }} {{ profile.name }}. Diseñado y desarrollado con Angular & Tailwind CSS · Clean Architecture.</p>
         <p class="mt-1 inline-flex items-center gap-1.5">
           <app-icon name="map-pin" [size]="14" /> {{ profile.location }}
         </p>
@@ -62,6 +62,6 @@ import { IconComponent } from './icon.component';
   `,
 })
 export class ContactComponent {
-  protected readonly profile = PROFILE;
+  protected readonly profile = inject(GetProfileUseCase).profile();
   protected readonly year = new Date().getFullYear();
 }

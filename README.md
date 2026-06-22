@@ -12,20 +12,35 @@ Portafolio personal de **Danny Armijos**, Software Engineer & Full Stack Develop
 - **Tarjetas con tilt 3D** (`appTilt`) en proyectos, skills, certificaciones y testimonios.
 - **Animaciones de scroll** con IntersectionObserver (`appReveal`), respetando `prefers-reduced-motion`.
 - **Filtro de proyectos** por categoría con `signal` + `computed`.
+- **Sección de apps móviles** con mockup 3D de teléfono y badges de App Store / Google Play (Miri Verbs).
 - Proyectos reales verificados en producción (todos responden HTTP 200).
 - Diseño glassmorphism, gradientes animados y accesible (ARIA, contraste, foco).
 
-## Arquitectura
+## Arquitectura (Clean Architecture)
+
+Separación por capas con dependencias apuntando siempre hacia el dominio:
 
 ```
 src/app/
-├── models/         # Interfaces del dominio (fuente de verdad de tipos)
-├── data/           # Contenido (perfil, proyectos, experiencia, certificaciones)
-├── directives/     # tilt.directive (3D), reveal.directive (scroll)
-├── components/     # navbar, hero, about, skills, projects, experience,
-│                   # certifications, contact, icon
-└── app.ts          # Composición de secciones
+├── core/
+│   ├── domain/                 # Capa más interna (sin dependencias de framework)
+│   │   ├── entities/           # Profile, Project, MobileApp, SkillGroup, ...
+│   │   └── repositories/       # PortfolioRepository (puerto abstracto)
+│   ├── application/
+│   │   └── use-cases/          # GetProfile, GetProjects, GetMobileApps, ...
+│   └── infrastructure/
+│       └── repositories/       # InMemoryPortfolioRepository (implementa el puerto)
+└── presentation/
+    ├── shared/                 # icon, section-heading, directivas tilt/reveal (3D)
+    └── sections/               # navbar, hero, about, skills, projects, apps,
+                                # experience, certifications, contact
 ```
+
+- **Dependency Inversion**: la presentación depende del puerto `PortfolioRepository`,
+  nunca de la implementación. El binding se hace en `app.config.ts`
+  (`{ provide: PortfolioRepository, useClass: InMemoryPortfolioRepository }`).
+- Cambiar a un CMS/HTTP solo requiere una nueva implementación de infraestructura,
+  sin tocar dominio ni componentes.
 
 ## Desarrollo
 

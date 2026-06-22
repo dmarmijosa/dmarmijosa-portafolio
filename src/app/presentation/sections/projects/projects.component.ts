@@ -2,30 +2,31 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  inject,
   signal,
 } from '@angular/core';
-import { PROJECTS } from '../data/portfolio.data';
-import { Project, ProjectCategory } from '../models/portfolio.models';
-import { RevealDirective } from '../directives/reveal.directive';
-import { TiltDirective } from '../directives/tilt.directive';
-import { IconComponent } from './icon.component';
-
-type Filter = ProjectCategory | 'Todos';
+import {
+  GetProjectsUseCase,
+  ProjectFilter,
+} from '../../../core/application/use-cases/get-projects.use-case';
+import { RevealDirective } from '../../shared/directives/reveal.directive';
+import { TiltDirective } from '../../shared/directives/tilt.directive';
+import { IconComponent } from '../../shared/components/icon.component';
+import { SectionHeadingComponent } from '../../shared/components/section-heading.component';
 
 @Component({
   selector: 'app-projects',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RevealDirective, TiltDirective, IconComponent],
+  imports: [RevealDirective, TiltDirective, IconComponent, SectionHeadingComponent],
   template: `
     <section id="projects" class="relative mx-auto max-w-6xl px-6 py-24">
-      <div class="mb-10 text-center" appReveal>
-        <p class="font-mono text-sm font-medium text-accent-400">// portafolio</p>
-        <h2 class="mt-3 font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">
-          Proyectos <span class="text-gradient">en producción</span>
-        </h2>
-        <p class="mx-auto mt-4 max-w-2xl text-slate-400">
-          Una selección de aplicaciones reales, todas verificadas y en línea. Haz clic para visitarlas.
-        </p>
+      <div class="mb-10">
+        <app-section-heading
+          eyebrow="// portafolio"
+          titleLead="Proyectos"
+          titleAccent="en producción"
+          subtitle="Una selección de aplicaciones reales, todas verificadas y en línea. Haz clic para visitarlas."
+        />
       </div>
 
       <!-- Filters -->
@@ -101,17 +102,14 @@ type Filter = ProjectCategory | 'Todos';
   `,
 })
 export class ProjectsComponent {
-  protected readonly filters: readonly Filter[] = [
+  private readonly getProjects = inject(GetProjectsUseCase);
+
+  protected readonly filters: readonly ProjectFilter[] = [
     'Todos', 'Web App', 'E-commerce', 'Landing', 'IA', 'Móvil',
   ];
-  protected readonly activeFilter = signal<Filter>('Todos');
+  protected readonly activeFilter = signal<ProjectFilter>('Todos');
 
-  private readonly all = PROJECTS;
-
-  protected readonly visibleProjects = computed<readonly Project[]>(() => {
-    const filter = this.activeFilter();
-    const list = filter === 'Todos' ? this.all : this.all.filter((p) => p.category === filter);
-    // featured first, preserving source order otherwise
-    return [...list].sort((a, b) => Number(b.featured) - Number(a.featured));
-  });
+  protected readonly visibleProjects = computed(() =>
+    this.getProjects.byCategory(this.activeFilter()),
+  );
 }

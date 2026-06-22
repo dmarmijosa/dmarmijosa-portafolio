@@ -1,21 +1,19 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SKILL_GROUPS } from '../data/portfolio.data';
-import { RevealDirective } from '../directives/reveal.directive';
-import { TiltDirective } from '../directives/tilt.directive';
-import { IconComponent } from './icon.component';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { GetSkillsUseCase } from '../../../core/application/use-cases/get-skills.use-case';
+import { RevealDirective } from '../../shared/directives/reveal.directive';
+import { TiltDirective } from '../../shared/directives/tilt.directive';
+import { IconComponent } from '../../shared/components/icon.component';
+import { SectionHeadingComponent } from '../../shared/components/section-heading.component';
 
 @Component({
   selector: 'app-skills',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RevealDirective, TiltDirective, IconComponent],
+  imports: [RevealDirective, TiltDirective, IconComponent, SectionHeadingComponent],
   template: `
     <section id="skills" class="relative overflow-hidden py-24">
       <div class="mx-auto max-w-6xl px-6">
-        <div class="mb-14 text-center" appReveal>
-          <p class="font-mono text-sm font-medium text-accent-400">// stack tecnológico</p>
-          <h2 class="mt-3 font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">
-            Tecnologías que <span class="text-gradient">domino</span>
-          </h2>
+        <div class="mb-14">
+          <app-section-heading eyebrow="// stack tecnológico" titleLead="Tecnologías que" titleAccent="domino" />
         </div>
 
         <div class="scene-3d grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -36,9 +34,7 @@ import { IconComponent } from './icon.component';
                 <h3 class="font-display text-lg font-bold text-white">{{ group.title }}</h3>
                 <ul class="mt-4 flex flex-wrap gap-2">
                   @for (skill of group.skills; track skill) {
-                    <li
-                      class="rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-medium text-slate-300"
-                    >
+                    <li class="rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-medium text-slate-300">
                       {{ skill }}
                     </li>
                   }
@@ -66,10 +62,10 @@ import { IconComponent } from './icon.component';
   `,
 })
 export class SkillsComponent {
-  protected readonly groups = SKILL_GROUPS;
+  protected readonly groups = inject(GetSkillsUseCase).execute();
   protected readonly marquee = [
-    'Angular', '•', 'NestJS', '•', 'TypeScript', '•', 'React Native', '•', 'RxJS',
+    'Angular', '•', 'NestJS', '•', 'TypeScript', '•', 'Flutter', '•', 'RxJS',
     '•', 'Signals', '•', 'Node.js', '•', 'PostgreSQL', '•', 'MongoDB', '•',
-    'Docker', '•', 'AWS', '•', 'Tailwind', '•', 'LangChain', '•',
+    'Docker', '•', 'AWS', '•', 'Tailwind', '•', 'Clean Architecture', '•',
   ];
 }

@@ -1,23 +1,23 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CERTIFICATIONS } from '../data/portfolio.data';
-import { RevealDirective } from '../directives/reveal.directive';
-import { TiltDirective } from '../directives/tilt.directive';
-import { IconComponent } from './icon.component';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { GetCredentialsUseCase } from '../../../core/application/use-cases/get-credentials.use-case';
+import { RevealDirective } from '../../shared/directives/reveal.directive';
+import { TiltDirective } from '../../shared/directives/tilt.directive';
+import { IconComponent } from '../../shared/components/icon.component';
+import { SectionHeadingComponent } from '../../shared/components/section-heading.component';
 
 @Component({
   selector: 'app-certifications',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RevealDirective, TiltDirective, IconComponent],
+  imports: [RevealDirective, TiltDirective, IconComponent, SectionHeadingComponent],
   template: `
     <section id="certs" class="relative mx-auto max-w-6xl px-6 py-24">
-      <div class="mb-14 text-center" appReveal>
-        <p class="font-mono text-sm font-medium text-accent-400">// aprendizaje continuo</p>
-        <h2 class="mt-3 font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">
-          Certificaciones <span class="text-gradient">destacadas</span>
-        </h2>
-        <p class="mx-auto mt-4 max-w-2xl text-slate-400">
-          Una muestra de las más relevantes de un total de 40 — incluyendo la certificación oficial de NestJS.
-        </p>
+      <div class="mb-14">
+        <app-section-heading
+          eyebrow="// aprendizaje continuo"
+          titleLead="Certificaciones"
+          titleAccent="destacadas"
+          subtitle="Una muestra de las más relevantes de un total de 40 — incluyendo la certificación oficial de NestJS."
+        />
       </div>
 
       <div class="scene-3d grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -47,5 +47,5 @@ import { IconComponent } from './icon.component';
   `,
 })
 export class CertificationsComponent {
-  protected readonly certifications = CERTIFICATIONS;
+  protected readonly certifications = inject(GetCredentialsUseCase).certifications();
 }

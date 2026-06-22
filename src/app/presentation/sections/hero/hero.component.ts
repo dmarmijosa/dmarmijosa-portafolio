@@ -1,11 +1,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   signal,
 } from '@angular/core';
-import { PROFILE, STATS } from '../data/portfolio.data';
-import { TiltDirective } from '../directives/tilt.directive';
-import { IconComponent } from './icon.component';
+import { GetProfileUseCase } from '../../../core/application/use-cases/get-profile.use-case';
+import { TiltDirective } from '../../shared/directives/tilt.directive';
+import { IconComponent } from '../../shared/components/icon.component';
 
 @Component({
   selector: 'app-hero',
@@ -148,8 +149,9 @@ import { IconComponent } from './icon.component';
   `,
 })
 export class HeroComponent {
-  protected readonly profile = PROFILE;
-  protected readonly stats = STATS;
+  private readonly getProfile = inject(GetProfileUseCase);
+  protected readonly profile = this.getProfile.profile();
+  protected readonly stats = this.getProfile.stats();
 
   /** Normalized pointer offset from screen center, range roughly [-0.5, 0.5]. */
   private readonly px = signal(0);

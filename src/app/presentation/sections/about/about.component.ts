@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { PROFILE, RECOMMENDATIONS } from '../data/portfolio.data';
-import { RevealDirective } from '../directives/reveal.directive';
-import { TiltDirective } from '../directives/tilt.directive';
-import { IconComponent } from './icon.component';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { GetProfileUseCase } from '../../../core/application/use-cases/get-profile.use-case';
+import { GetCredentialsUseCase } from '../../../core/application/use-cases/get-credentials.use-case';
+import { RevealDirective } from '../../shared/directives/reveal.directive';
+import { TiltDirective } from '../../shared/directives/tilt.directive';
+import { IconComponent } from '../../shared/components/icon.component';
 
 @Component({
   selector: 'app-about',
@@ -31,11 +32,7 @@ import { IconComponent } from './icon.component';
             <app-icon name="quote" [size]="18" /> Lo que dicen de mí
           </p>
           @for (rec of recommendations; track rec.author) {
-            <article
-              appTilt
-              [maxTilt]="6"
-              class="rounded-2xl glass border-glow p-5"
-            >
+            <article appTilt [maxTilt]="6" class="rounded-2xl glass border-glow p-5">
               <p class="text-sm leading-relaxed text-slate-200">“{{ rec.text }}”</p>
               <footer class="mt-3">
                 <p class="text-sm font-semibold text-white">{{ rec.author }}</p>
@@ -49,6 +46,6 @@ import { IconComponent } from './icon.component';
   `,
 })
 export class AboutComponent {
-  protected readonly profile = PROFILE;
-  protected readonly recommendations = RECOMMENDATIONS;
+  protected readonly profile = inject(GetProfileUseCase).profile();
+  protected readonly recommendations = inject(GetCredentialsUseCase).recommendations();
 }

@@ -1,19 +1,17 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { EDUCATION, EXPERIENCES } from '../data/portfolio.data';
-import { RevealDirective } from '../directives/reveal.directive';
-import { IconComponent } from './icon.component';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { GetCareerUseCase } from '../../../core/application/use-cases/get-career.use-case';
+import { RevealDirective } from '../../shared/directives/reveal.directive';
+import { IconComponent } from '../../shared/components/icon.component';
+import { SectionHeadingComponent } from '../../shared/components/section-heading.component';
 
 @Component({
   selector: 'app-experience',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RevealDirective, IconComponent],
+  imports: [RevealDirective, IconComponent, SectionHeadingComponent],
   template: `
     <section id="experience" class="relative mx-auto max-w-6xl px-6 py-24">
-      <div class="mb-14 text-center" appReveal>
-        <p class="font-mono text-sm font-medium text-accent-400">// trayectoria</p>
-        <h2 class="mt-3 font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">
-          Experiencia <span class="text-gradient">profesional</span>
-        </h2>
+      <div class="mb-14">
+        <app-section-heading eyebrow="// trayectoria" titleLead="Experiencia" titleAccent="profesional" />
       </div>
 
       <div class="grid gap-12 lg:grid-cols-[1.4fr_1fr]">
@@ -72,6 +70,7 @@ import { IconComponent } from './icon.component';
   `,
 })
 export class ExperienceComponent {
-  protected readonly experiences = EXPERIENCES;
-  protected readonly education = EDUCATION;
+  private readonly career = inject(GetCareerUseCase);
+  protected readonly experiences = this.career.experiences();
+  protected readonly education = this.career.education();
 }
