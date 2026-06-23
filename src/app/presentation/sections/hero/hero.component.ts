@@ -1,17 +1,20 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   inject,
   signal,
 } from '@angular/core';
+import { NgOptimizedImage } from '@angular/common';
 import { GetProfileUseCase } from '../../../core/application/use-cases/get-profile.use-case';
+import { LocaleService } from '../../shared/i18n/locale.service';
 import { TiltDirective } from '../../shared/directives/tilt.directive';
 import { IconComponent } from '../../shared/components/icon.component';
 
 @Component({
   selector: 'app-hero',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TiltDirective, IconComponent],
+  imports: [NgOptimizedImage, TiltDirective, IconComponent],
   host: {
     '(pointermove)': 'onPointer($event)',
   },
@@ -51,24 +54,24 @@ import { IconComponent } from '../../shared/components/icon.component';
               <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
               <span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-400"></span>
             </span>
-            {{ profile.availability }}
+            {{ profile().availability }}
           </span>
 
           <h1 class="mt-6 font-display text-5xl font-bold leading-[1.05] tracking-tight text-white sm:text-6xl lg:text-7xl">
-            Hola, soy<br />
-            <span class="text-gradient animate-gradient">{{ profile.name }}</span>
+            {{ loc.t('hero.greeting') }}<br />
+            <span class="text-gradient animate-gradient">{{ profile().name }}</span>
           </h1>
 
           <p class="mt-5 max-w-xl text-lg leading-relaxed text-slate-300">
-            {{ profile.headline }}
+            {{ profile().headline }}
           </p>
 
           <div class="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-slate-400">
             <span class="inline-flex items-center gap-1.5">
-              <app-icon name="map-pin" [size]="16" /> {{ profile.location }}
+              <app-icon name="map-pin" [size]="16" /> {{ profile().location }}
             </span>
             <span class="inline-flex items-center gap-1.5">
-              <app-icon name="globe" [size]="16" /> {{ profile.modality }}
+              <app-icon name="globe" [size]="16" /> {{ profile().modality }}
             </span>
           </div>
 
@@ -77,11 +80,11 @@ import { IconComponent } from '../../shared/components/icon.component';
               href="#projects"
               class="group inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-brand-500 to-accent-500 px-6 py-3 font-semibold text-white shadow-xl shadow-brand-500/30 transition-transform hover:scale-105"
             >
-              Ver proyectos
+              {{ loc.t('hero.viewProjects') }}
               <app-icon name="arrow-down" [size]="18" />
             </a>
             <a
-              [href]="profile.github"
+              [href]="profile().github"
               target="_blank"
               rel="noopener"
               class="inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-6 py-3 font-semibold text-white transition-colors hover:bg-white/10"
@@ -92,7 +95,7 @@ import { IconComponent } from '../../shared/components/icon.component';
 
           <!-- Stats -->
           <dl class="mt-12 grid max-w-md grid-cols-4 gap-4">
-            @for (stat of stats; track stat.label) {
+            @for (stat of stats(); track stat.label) {
               <div class="text-center">
                 <dt class="font-display text-2xl font-bold text-white sm:text-3xl">{{ stat.value }}</dt>
                 <dd class="mt-1 text-xs leading-tight text-slate-400">{{ stat.label }}</dd>
@@ -110,14 +113,17 @@ import { IconComponent } from '../../shared/components/icon.component';
           >
             <div class="layer-pop">
               <div class="flex items-center gap-4">
-                <div
-                  class="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 to-accent-500 font-display text-2xl font-bold text-white shadow-lg"
-                >
-                  DA
-                </div>
+                <img
+                  [ngSrc]="profile().photoUrl"
+                  width="64"
+                  height="64"
+                  [alt]="profile().name"
+                  class="h-16 w-16 rounded-2xl object-cover shadow-lg ring-2 ring-brand-400/40"
+                  priority
+                />
                 <div>
-                  <p class="font-display text-lg font-bold text-white">{{ profile.name }}</p>
-                  <p class="text-sm text-brand-300">Full Stack Developer</p>
+                  <p class="font-display text-lg font-bold text-white">{{ profile().name }}</p>
+                  <p class="text-sm text-brand-300">{{ loc.t('hero.cardRole') }}</p>
                 </div>
               </div>
 
@@ -149,9 +155,10 @@ import { IconComponent } from '../../shared/components/icon.component';
   `,
 })
 export class HeroComponent {
+  protected readonly loc = inject(LocaleService);
   private readonly getProfile = inject(GetProfileUseCase);
-  protected readonly profile = this.getProfile.profile();
-  protected readonly stats = this.getProfile.stats();
+  protected readonly profile = computed(() => this.getProfile.profile(this.loc.locale()));
+  protected readonly stats = computed(() => this.getProfile.stats(this.loc.locale()));
 
   /** Normalized pointer offset from screen center, range roughly [-0.5, 0.5]. */
   private readonly px = signal(0);

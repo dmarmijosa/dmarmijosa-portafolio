@@ -9,20 +9,21 @@ import {
   SkillGroup,
   Stat,
 } from '../entities';
+import { Locale } from '../value-objects/locale';
 
 /**
  * Domain port for accessing portfolio content. Presentation depends on this
  * abstraction, never on a concrete data source (Dependency Inversion).
- * Implementations live in the infrastructure layer and are wired via DI.
+ * Every query is resolved for a given locale.
  */
 export abstract class PortfolioRepository {
-  abstract getProfile(): Profile;
-  abstract getStats(): readonly Stat[];
-  abstract getSkillGroups(): readonly SkillGroup[];
-  abstract getProjects(): readonly Project[];
-  abstract getMobileApps(): readonly MobileApp[];
-  abstract getExperiences(): readonly Experience[];
-  abstract getEducation(): readonly Education[];
-  abstract getCertifications(): readonly Certification[];
-  abstract getRecommendations(): readonly Recommendation[];
+  abstract getProfile(locale: Locale): Profile;
+  abstract getStats(locale: Locale): readonly Stat[];
+  abstract getSkillGroups(locale: Locale): readonly SkillGroup[];
+  abstract getProjects(locale: Locale): readonly Project[];
+  abstract getMobileApps(locale: Locale): readonly MobileApp[];
+  abstract getExperiences(locale: Locale): readonly Experience[];
+  abstract getEducation(locale: Locale): readonly Education[];
+  abstract getCertifications(locale: Locale): readonly Certification[];
+  abstract getRecommendations(locale: Locale): readonly Recommendation[];
 }

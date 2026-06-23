@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { PortfolioRepository } from '../../domain/repositories/portfolio.repository';
 import { Project, ProjectCategory } from '../../domain/entities';
+import { Locale } from '../../domain/value-objects/locale';
 
 export type ProjectFilter = ProjectCategory | 'Todos';
 
@@ -9,12 +10,12 @@ export type ProjectFilter = ProjectCategory | 'Todos';
 export class GetProjectsUseCase {
   private readonly repo = inject(PortfolioRepository);
 
-  all(): readonly Project[] {
-    return this.featuredFirst(this.repo.getProjects());
+  all(locale: Locale): readonly Project[] {
+    return this.featuredFirst(this.repo.getProjects(locale));
   }
 
-  byCategory(filter: ProjectFilter): readonly Project[] {
-    const projects = this.repo.getProjects();
+  byCategory(filter: ProjectFilter, locale: Locale): readonly Project[] {
+    const projects = this.repo.getProjects(locale);
     const list = filter === 'Todos' ? projects : projects.filter((p) => p.category === filter);
     return this.featuredFirst(list);
   }

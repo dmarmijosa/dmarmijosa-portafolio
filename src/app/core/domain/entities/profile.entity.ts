@@ -1,6 +1,8 @@
 /** Core identity of the portfolio owner. */
 export interface Profile {
   readonly name: string;
+  /** Portrait image, resolved relative to the public/ assets root. */
+  readonly photoUrl: string;
   readonly role: string;
   readonly headline: string;
   readonly location: string;
