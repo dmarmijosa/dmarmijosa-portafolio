@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { GetCareerUseCase } from '../../../core/application/use-cases/get-career.use-case';
+import { LocaleService } from '../../shared/i18n/locale.service';
 import { RevealDirective } from '../../shared/directives/reveal.directive';
 import { IconComponent } from '../../shared/components/icon.component';
 import { SectionHeadingComponent } from '../../shared/components/section-heading.component';
@@ -11,13 +12,17 @@ import { SectionHeadingComponent } from '../../shared/components/section-heading
   template: `
     <section id="experience" class="relative mx-auto max-w-6xl px-6 py-24">
       <div class="mb-14">
-        <app-section-heading eyebrow="// trayectoria" titleLead="Experiencia" titleAccent="profesional" />
+        <app-section-heading
+          [eyebrow]="loc.t('experience.eyebrow')"
+          [titleLead]="loc.t('experience.titleLead')"
+          [titleAccent]="loc.t('experience.titleAccent')"
+        />
       </div>
 
       <div class="grid gap-12 lg:grid-cols-[1.4fr_1fr]">
         <!-- Timeline -->
         <ol class="relative border-l border-white/10 pl-8">
-          @for (exp of experiences; track exp.company; let i = $index) {
+          @for (exp of experiences(); track exp.company; let i = $index) {
             <li class="relative mb-10 last:mb-0" appReveal [delay]="i * 80">
               <span
                 class="absolute -left-[2.6rem] flex h-6 w-6 items-center justify-center rounded-full ring-4 ring-ink-950"
@@ -29,7 +34,7 @@ import { SectionHeadingComponent } from '../../shared/components/section-heading
                 <div class="flex flex-wrap items-center gap-2">
                   <h3 class="font-display text-lg font-bold text-white">{{ exp.role }}</h3>
                   @if (exp.current) {
-                    <span class="rounded-full bg-emerald-400/15 px-2 py-0.5 text-xs font-semibold text-emerald-300">Actual</span>
+                    <span class="rounded-full bg-emerald-400/15 px-2 py-0.5 text-xs font-semibold text-emerald-300">{{ loc.t('experience.current') }}</span>
                   }
                 </div>
                 <p class="text-sm font-medium text-brand-300">{{ exp.company }}</p>
@@ -49,9 +54,9 @@ import { SectionHeadingComponent } from '../../shared/components/section-heading
 
         <!-- Education -->
         <div appReveal [delay]="120">
-          <h3 class="mb-4 font-display text-lg font-bold text-white">Educación</h3>
+          <h3 class="mb-4 font-display text-lg font-bold text-white">{{ loc.t('experience.education') }}</h3>
           <div class="space-y-4">
-            @for (edu of education; track edu.institution) {
+            @for (edu of education(); track edu.institution) {
               <article class="rounded-2xl glass border-glow p-5">
                 <p class="font-semibold text-white">{{ edu.institution }}</p>
                 <p class="mt-1 text-sm text-slate-300">{{ edu.title }}</p>
@@ -62,7 +67,7 @@ import { SectionHeadingComponent } from '../../shared/components/section-heading
 
           <div class="mt-6 rounded-2xl bg-gradient-to-br from-brand-500/10 to-accent-500/10 p-5 ring-1 ring-brand-500/20">
             <p class="font-display text-3xl font-bold text-white">40</p>
-            <p class="mt-1 text-sm text-slate-300">certificaciones obtenidas entre 2016 y 2026 — formación continua en Angular, NestJS, IA y arquitectura.</p>
+            <p class="mt-1 text-sm text-slate-300">{{ loc.t('experience.certsCount') }}</p>
           </div>
         </div>
       </div>
@@ -70,7 +75,8 @@ import { SectionHeadingComponent } from '../../shared/components/section-heading
   `,
 })
 export class ExperienceComponent {
+  protected readonly loc = inject(LocaleService);
   private readonly career = inject(GetCareerUseCase);
-  protected readonly experiences = this.career.experiences();
-  protected readonly education = this.career.education();
+  protected readonly experiences = computed(() => this.career.experiences(this.loc.locale()));
+  protected readonly education = computed(() => this.career.education(this.loc.locale()));
 }

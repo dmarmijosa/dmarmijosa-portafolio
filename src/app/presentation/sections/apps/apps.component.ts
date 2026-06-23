@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { GetMobileAppsUseCase } from '../../../core/application/use-cases/get-mobile-apps.use-case';
+import { LocaleService } from '../../shared/i18n/locale.service';
 import { RevealDirective } from '../../shared/directives/reveal.directive';
 import { TiltDirective } from '../../shared/directives/tilt.directive';
 import { IconComponent } from '../../shared/components/icon.component';
@@ -21,14 +22,14 @@ import { SectionHeadingComponent } from '../../shared/components/section-heading
       <div class="mx-auto max-w-6xl px-6">
         <div class="mb-14">
           <app-section-heading
-            eyebrow="// apps móviles"
-            titleLead="En las"
-            titleAccent="tiendas"
-            subtitle="Aplicaciones publicadas en App Store y Google Play."
+            [eyebrow]="loc.t('apps.eyebrow')"
+            [titleLead]="loc.t('apps.titleLead')"
+            [titleAccent]="loc.t('apps.titleAccent')"
+            [subtitle]="loc.t('apps.subtitle')"
           />
         </div>
 
-        @for (app of apps; track app.name) {
+        @for (app of apps(); track app.name) {
           <article
             appReveal
             class="scene-3d grid items-center gap-10 rounded-3xl glass-strong border-glow p-8 sm:p-12 lg:grid-cols-[0.9fr_1.1fr]"
@@ -97,12 +98,12 @@ import { SectionHeadingComponent } from '../../shared/components/section-heading
                     target="_blank"
                     rel="noopener"
                     class="group inline-flex items-center gap-3 rounded-xl border border-white/15 bg-black px-5 py-2.5 text-white transition-transform hover:scale-105"
-                    aria-label="Descargar en el App Store"
+                    [attr.aria-label]="loc.t('apps.appStoreTop') + ' App Store'"
                   >
                     <app-icon name="apple" [size]="26" />
                     <span class="text-left leading-tight">
-                      <span class="block text-[0.62rem] uppercase tracking-wide text-slate-400">Descárgalo en el</span>
-                      <span class="block font-display text-base font-semibold">App Store</span>
+                      <span class="block text-[0.62rem] uppercase tracking-wide text-slate-400">{{ loc.t('apps.appStoreTop') }}</span>
+                      <span class="block font-display text-base font-semibold">{{ loc.t('apps.appStoreBottom') }}</span>
                     </span>
                   </a>
                 }
@@ -112,12 +113,12 @@ import { SectionHeadingComponent } from '../../shared/components/section-heading
                     target="_blank"
                     rel="noopener"
                     class="group inline-flex items-center gap-3 rounded-xl border border-white/15 bg-black px-5 py-2.5 text-white transition-transform hover:scale-105"
-                    aria-label="Disponible en Google Play"
+                    [attr.aria-label]="loc.t('apps.googleTop') + ' Google Play'"
                   >
                     <app-icon name="google-play" [size]="24" />
                     <span class="text-left leading-tight">
-                      <span class="block text-[0.62rem] uppercase tracking-wide text-slate-400">Disponible en</span>
-                      <span class="block font-display text-base font-semibold">Google Play</span>
+                      <span class="block text-[0.62rem] uppercase tracking-wide text-slate-400">{{ loc.t('apps.googleTop') }}</span>
+                      <span class="block font-display text-base font-semibold">{{ loc.t('apps.googleBottom') }}</span>
                     </span>
                   </a>
                 }
@@ -130,5 +131,7 @@ import { SectionHeadingComponent } from '../../shared/components/section-heading
   `,
 })
 export class AppsComponent {
-  protected readonly apps = inject(GetMobileAppsUseCase).execute();
+  protected readonly loc = inject(LocaleService);
+  private readonly getMobileApps = inject(GetMobileAppsUseCase);
+  protected readonly apps = computed(() => this.getMobileApps.execute(this.loc.locale()));
 }

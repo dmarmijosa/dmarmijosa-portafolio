@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { GetSkillsUseCase } from '../../../core/application/use-cases/get-skills.use-case';
+import { LocaleService } from '../../shared/i18n/locale.service';
 import { RevealDirective } from '../../shared/directives/reveal.directive';
 import { TiltDirective } from '../../shared/directives/tilt.directive';
 import { IconComponent } from '../../shared/components/icon.component';
@@ -13,11 +14,15 @@ import { SectionHeadingComponent } from '../../shared/components/section-heading
     <section id="skills" class="relative overflow-hidden py-24">
       <div class="mx-auto max-w-6xl px-6">
         <div class="mb-14">
-          <app-section-heading eyebrow="// stack tecnológico" titleLead="Tecnologías que" titleAccent="domino" />
+          <app-section-heading
+            [eyebrow]="loc.t('skills.eyebrow')"
+            [titleLead]="loc.t('skills.titleLead')"
+            [titleAccent]="loc.t('skills.titleAccent')"
+          />
         </div>
 
         <div class="scene-3d grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          @for (group of groups; track group.title; let i = $index) {
+          @for (group of groups(); track group.title; let i = $index) {
             <article
               appReveal
               [delay]="i * 70"
@@ -62,7 +67,10 @@ import { SectionHeadingComponent } from '../../shared/components/section-heading
   `,
 })
 export class SkillsComponent {
-  protected readonly groups = inject(GetSkillsUseCase).execute();
+  protected readonly loc = inject(LocaleService);
+  private readonly getSkills = inject(GetSkillsUseCase);
+  protected readonly groups = computed(() => this.getSkills.execute(this.loc.locale()));
+
   protected readonly marquee = [
     'Angular', '•', 'NestJS', '•', 'TypeScript', '•', 'Flutter', '•', 'RxJS',
     '•', 'Signals', '•', 'Node.js', '•', 'PostgreSQL', '•', 'MongoDB', '•',

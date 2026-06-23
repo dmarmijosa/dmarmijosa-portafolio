@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { GetCredentialsUseCase } from '../../../core/application/use-cases/get-credentials.use-case';
+import { LocaleService } from '../../shared/i18n/locale.service';
 import { RevealDirective } from '../../shared/directives/reveal.directive';
 import { TiltDirective } from '../../shared/directives/tilt.directive';
 import { IconComponent } from '../../shared/components/icon.component';
@@ -13,15 +14,15 @@ import { SectionHeadingComponent } from '../../shared/components/section-heading
     <section id="certs" class="relative mx-auto max-w-6xl px-6 py-24">
       <div class="mb-14">
         <app-section-heading
-          eyebrow="// aprendizaje continuo"
-          titleLead="Certificaciones"
-          titleAccent="destacadas"
-          subtitle="Una muestra de las más relevantes de un total de 40 — incluyendo la certificación oficial de NestJS."
+          [eyebrow]="loc.t('certs.eyebrow')"
+          [titleLead]="loc.t('certs.titleLead')"
+          [titleAccent]="loc.t('certs.titleAccent')"
+          [subtitle]="loc.t('certs.subtitle')"
         />
       </div>
 
       <div class="scene-3d grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        @for (cert of certifications; track cert.name; let i = $index) {
+        @for (cert of certifications(); track cert.name; let i = $index) {
           <article
             appReveal
             [delay]="(i % 3) * 70"
@@ -47,5 +48,9 @@ import { SectionHeadingComponent } from '../../shared/components/section-heading
   `,
 })
 export class CertificationsComponent {
-  protected readonly certifications = inject(GetCredentialsUseCase).certifications();
+  protected readonly loc = inject(LocaleService);
+  private readonly getCredentials = inject(GetCredentialsUseCase);
+  protected readonly certifications = computed(() =>
+    this.getCredentials.certifications(this.loc.locale()),
+  );
 }

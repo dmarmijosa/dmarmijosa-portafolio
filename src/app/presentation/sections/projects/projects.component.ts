@@ -9,6 +9,7 @@ import {
   GetProjectsUseCase,
   ProjectFilter,
 } from '../../../core/application/use-cases/get-projects.use-case';
+import { LocaleService } from '../../shared/i18n/locale.service';
 import { RevealDirective } from '../../shared/directives/reveal.directive';
 import { TiltDirective } from '../../shared/directives/tilt.directive';
 import { IconComponent } from '../../shared/components/icon.component';
@@ -22,10 +23,10 @@ import { SectionHeadingComponent } from '../../shared/components/section-heading
     <section id="projects" class="relative mx-auto max-w-6xl px-6 py-24">
       <div class="mb-10">
         <app-section-heading
-          eyebrow="// portafolio"
-          titleLead="Proyectos"
-          titleAccent="en producción"
-          subtitle="Una selección de aplicaciones reales, todas verificadas y en línea. Haz clic para visitarlas."
+          [eyebrow]="loc.t('projects.eyebrow')"
+          [titleLead]="loc.t('projects.titleLead')"
+          [titleAccent]="loc.t('projects.titleAccent')"
+          [subtitle]="loc.t('projects.subtitle')"
         />
       </div>
 
@@ -43,7 +44,7 @@ import { SectionHeadingComponent } from '../../shared/components/section-heading
             "
             [attr.aria-pressed]="activeFilter() === f"
           >
-            {{ f }}
+            {{ filterLabel(f) }}
           </button>
         }
       </div>
@@ -60,7 +61,7 @@ import { SectionHeadingComponent } from '../../shared/components/section-heading
             appTilt
             [maxTilt]="11"
             class="group relative flex flex-col overflow-hidden rounded-2xl glass border-glow p-px transition-shadow hover:shadow-2xl hover:shadow-brand-500/25"
-            [attr.aria-label]="'Abrir ' + project.title + ' en una pestaña nueva'"
+            [attr.aria-label]="loc.t('projects.openAria', { title: project.title })"
           >
             <!-- Accent banner -->
             <div
@@ -72,11 +73,11 @@ import { SectionHeadingComponent } from '../../shared/components/section-heading
               </span>
               @if (project.featured) {
                 <span class="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-black/40 px-2.5 py-1 text-xs font-semibold text-white backdrop-blur">
-                  <app-icon name="star" [size]="13" /> Destacado
+                  <app-icon name="star" [size]="13" /> {{ loc.t('projects.featured') }}
                 </span>
               }
               <span class="absolute right-3 top-3 rounded-full bg-black/40 px-2.5 py-1 text-xs font-medium text-white backdrop-blur">
-                {{ project.category }}
+                {{ loc.t('category.' + project.category) }}
               </span>
             </div>
 
@@ -102,6 +103,7 @@ import { SectionHeadingComponent } from '../../shared/components/section-heading
   `,
 })
 export class ProjectsComponent {
+  protected readonly loc = inject(LocaleService);
   private readonly getProjects = inject(GetProjectsUseCase);
 
   protected readonly filters: readonly ProjectFilter[] = [
@@ -110,6 +112,10 @@ export class ProjectsComponent {
   protected readonly activeFilter = signal<ProjectFilter>('Todos');
 
   protected readonly visibleProjects = computed(() =>
-    this.getProjects.byCategory(this.activeFilter()),
+    this.getProjects.byCategory(this.activeFilter(), this.loc.locale()),
   );
+
+  protected filterLabel(filter: ProjectFilter): string {
+    return filter === 'Todos' ? this.loc.t('projects.filter.Todos') : this.loc.t('category.' + filter);
+  }
 }
