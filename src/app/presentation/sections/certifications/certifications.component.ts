@@ -22,7 +22,7 @@ import { SectionHeadingComponent } from '../../shared/components/section-heading
       </div>
 
       <div class="scene-3d grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        @for (cert of certifications(); track cert.name; let i = $index) {
+        @for (cert of certifications(); track $index; let i = $index) {
           <article
             appReveal
             [delay]="(i % 3) * 70"

@@ -22,7 +22,7 @@ import { SectionHeadingComponent } from '../../shared/components/section-heading
         </div>
 
         <div class="scene-3d grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          @for (group of groups(); track group.title; let i = $index) {
+          @for (group of groups(); track $index; let i = $index) {
             <article
               appReveal
               [delay]="i * 70"

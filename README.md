@@ -13,6 +13,9 @@ Portafolio personal de **Danny Armijos**, Software Engineer & Full Stack Develop
 - **Animaciones de scroll** con IntersectionObserver (`appReveal`), respetando `prefers-reduced-motion`.
 - **Filtro de proyectos** por categoría con `signal` + `computed`.
 - **Sección de apps móviles** con mockup 3D de teléfono y badges de App Store / Google Play (Miri Verbs).
+- **i18n runtime (ES/EN)** con detección automática del idioma del navegador (`navigator.language`),
+  conmutador manual y preferencia persistida en `localStorage`.
+- Foto de perfil y favicon propios, imágenes optimizadas con `NgOptimizedImage`.
 - Proyectos reales verificados en producción (todos responden HTTP 200).
 - Diseño glassmorphism, gradientes animados y accesible (ARIA, contraste, foco).
 

@@ -76,7 +76,7 @@ import { SectionHeadingComponent } from '../../shared/components/section-heading
               <p class="mt-4 leading-relaxed text-slate-300">{{ app.description }}</p>
 
               <ul class="mt-6 grid gap-2.5 sm:grid-cols-2">
-                @for (feature of app.features; track feature) {
+                @for (feature of app.features; track $index) {
                   <li class="flex items-start gap-2 text-sm text-slate-300">
                     <span class="mt-0.5 shrink-0 text-accent-400"><app-icon name="check" [size]="16" /></span>
                     <span>{{ feature }}</span>

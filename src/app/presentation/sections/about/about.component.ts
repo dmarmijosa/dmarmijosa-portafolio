@@ -53,7 +53,7 @@ import { IconComponent } from '../../shared/components/icon.component';
             <p class="flex items-center gap-2 text-sm font-medium text-slate-400">
               <app-icon name="quote" [size]="18" /> {{ loc.t('about.recommendations') }}
             </p>
-            @for (rec of recommendations(); track rec.author) {
+            @for (rec of recommendations(); track $index) {
               <article appTilt [maxTilt]="6" class="rounded-2xl glass border-glow p-5">
                 <p class="text-sm leading-relaxed text-slate-200">“{{ rec.text }}”</p>
                 <footer class="mt-3">

@@ -95,7 +95,7 @@ import { IconComponent } from '../../shared/components/icon.component';
 
           <!-- Stats -->
           <dl class="mt-12 grid max-w-md grid-cols-4 gap-4">
-            @for (stat of stats(); track stat.label) {
+            @for (stat of stats(); track $index) {
               <div class="text-center">
                 <dt class="font-display text-2xl font-bold text-white sm:text-3xl">{{ stat.value }}</dt>
                 <dd class="mt-1 text-xs leading-tight text-slate-400">{{ stat.label }}</dd>

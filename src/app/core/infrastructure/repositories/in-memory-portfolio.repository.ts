@@ -441,79 +441,109 @@ export class InMemoryPortfolioRepository extends PortfolioRepository {
   ];
 
   // -- Port implementation ---------------------------------------------------
-  getProfile(locale: Locale): Profile {
+  // Resolved content is memoized per locale so every getter returns a STABLE
+  // reference. This prevents Angular @for from re-creating DOM on each change
+  // detection pass; references only change when the locale actually changes.
+  private readonly cache = new Map<Locale, ResolvedContent>();
+
+  private resolve(locale: Locale): ResolvedContent {
+    let resolved = this.cache.get(locale);
+    if (resolved) return resolved;
+
     const p = this.profile;
-    return {
-      name: p.name,
-      photoUrl: p.photoUrl,
-      role: pick(p.role, locale),
-      headline: pick(p.headline, locale),
-      location: pick(p.location, locale),
-      modality: pick(p.modality, locale),
-      summary: pick(p.summary, locale),
-      email: p.email,
-      website: p.website,
-      linkedin: p.linkedin,
-      github: p.github,
-      yearsExperience: p.yearsExperience,
-      availability: pick(p.availability, locale),
+    resolved = {
+      profile: {
+        name: p.name,
+        photoUrl: p.photoUrl,
+        role: pick(p.role, locale),
+        headline: pick(p.headline, locale),
+        location: pick(p.location, locale),
+        modality: pick(p.modality, locale),
+        summary: pick(p.summary, locale),
+        email: p.email,
+        website: p.website,
+        linkedin: p.linkedin,
+        github: p.github,
+        yearsExperience: p.yearsExperience,
+        availability: pick(p.availability, locale),
+      },
+      stats: this.stats.map((s) => ({ value: s.value, label: pick(s.label, locale) })),
+      skillGroups: this.skillGroups.map((g) => ({
+        title: pick(g.title, locale),
+        icon: g.icon,
+        skills: g.skills,
+      })),
+      projects: this.projects.map((pr) => ({ ...pr, description: pick(pr.description, locale) })),
+      mobileApps: this.mobileApps.map((a) => ({
+        ...a,
+        tagline: pick(a.tagline, locale),
+        description: pick(a.description, locale),
+        category: pick(a.category, locale),
+        features: pickList(a.features, locale),
+      })),
+      experiences: this.experiences.map((e) => ({
+        company: e.company,
+        role: pick(e.role, locale),
+        period: pick(e.period, locale),
+        location: pick(e.location, locale),
+        current: e.current,
+        highlights: pickList(e.highlights, locale),
+      })),
+      education: this.education.map((e) => ({
+        institution: e.institution,
+        title: pick(e.title, locale),
+        period: e.period,
+      })),
+      certifications: this.certifications.map((c) => ({ ...c, name: pick(c.name, locale) })),
+      recommendations: this.recommendations.map((r) => ({
+        author: r.author,
+        role: pick(r.role, locale),
+        text: pick(r.text, locale),
+      })),
     };
+
+    this.cache.set(locale, resolved);
+    return resolved;
   }
 
+  getProfile(locale: Locale): Profile {
+    return this.resolve(locale).profile;
+  }
   getStats(locale: Locale): readonly Stat[] {
-    return this.stats.map((s) => ({ value: s.value, label: pick(s.label, locale) }));
+    return this.resolve(locale).stats;
   }
-
   getSkillGroups(locale: Locale): readonly SkillGroup[] {
-    return this.skillGroups.map((g) => ({
-      title: pick(g.title, locale),
-      icon: g.icon,
-      skills: g.skills,
-    }));
+    return this.resolve(locale).skillGroups;
   }
-
   getProjects(locale: Locale): readonly Project[] {
-    return this.projects.map((p) => ({ ...p, description: pick(p.description, locale) }));
+    return this.resolve(locale).projects;
   }
-
   getMobileApps(locale: Locale): readonly MobileApp[] {
-    return this.mobileApps.map((a) => ({
-      ...a,
-      tagline: pick(a.tagline, locale),
-      description: pick(a.description, locale),
-      category: pick(a.category, locale),
-      features: pickList(a.features, locale),
-    }));
+    return this.resolve(locale).mobileApps;
   }
-
   getExperiences(locale: Locale): readonly Experience[] {
-    return this.experiences.map((e) => ({
-      company: e.company,
-      role: pick(e.role, locale),
-      period: pick(e.period, locale),
-      location: pick(e.location, locale),
-      current: e.current,
-      highlights: pickList(e.highlights, locale),
-    }));
+    return this.resolve(locale).experiences;
   }
-
   getEducation(locale: Locale): readonly Education[] {
-    return this.education.map((e) => ({
-      institution: e.institution,
-      title: pick(e.title, locale),
-      period: e.period,
-    }));
+    return this.resolve(locale).education;
   }
-
   getCertifications(locale: Locale): readonly Certification[] {
-    return this.certifications.map((c) => ({ ...c, name: pick(c.name, locale) }));
+    return this.resolve(locale).certifications;
   }
-
   getRecommendations(locale: Locale): readonly Recommendation[] {
-    return this.recommendations.map((r) => ({
-      author: r.author,
-      role: pick(r.role, locale),
-      text: pick(r.text, locale),
-    }));
+    return this.resolve(locale).recommendations;
   }
+}
+
+/** All portfolio content resolved for a single locale. */
+interface ResolvedContent {
+  profile: Profile;
+  stats: readonly Stat[];
+  skillGroups: readonly SkillGroup[];
+  projects: readonly Project[];
+  mobileApps: readonly MobileApp[];
+  experiences: readonly Experience[];
+  education: readonly Education[];
+  certifications: readonly Certification[];
+  recommendations: readonly Recommendation[];
 }

@@ -22,7 +22,7 @@ import { SectionHeadingComponent } from '../../shared/components/section-heading
       <div class="grid gap-12 lg:grid-cols-[1.4fr_1fr]">
         <!-- Timeline -->
         <ol class="relative border-l border-white/10 pl-8">
-          @for (exp of experiences(); track exp.company; let i = $index) {
+          @for (exp of experiences(); track $index; let i = $index) {
             <li class="relative mb-10 last:mb-0" appReveal [delay]="i * 80">
               <span
                 class="absolute -left-[2.6rem] flex h-6 w-6 items-center justify-center rounded-full ring-4 ring-ink-950"
@@ -40,7 +40,7 @@ import { SectionHeadingComponent } from '../../shared/components/section-heading
                 <p class="text-sm font-medium text-brand-300">{{ exp.company }}</p>
                 <p class="mt-0.5 text-xs text-slate-500">{{ exp.period }} · {{ exp.location }}</p>
                 <ul class="mt-3 space-y-1.5">
-                  @for (h of exp.highlights; track h) {
+                  @for (h of exp.highlights; track $index) {
                     <li class="flex gap-2 text-sm text-slate-400">
                       <span class="mt-0.5 shrink-0 text-accent-400"><app-icon name="check" [size]="15" /></span>
                       <span>{{ h }}</span>
@@ -56,7 +56,7 @@ import { SectionHeadingComponent } from '../../shared/components/section-heading
         <div appReveal [delay]="120">
           <h3 class="mb-4 font-display text-lg font-bold text-white">{{ loc.t('experience.education') }}</h3>
           <div class="space-y-4">
-            @for (edu of education(); track edu.institution) {
+            @for (edu of education(); track $index) {
               <article class="rounded-2xl glass border-glow p-5">
                 <p class="font-semibold text-white">{{ edu.institution }}</p>
                 <p class="mt-1 text-sm text-slate-300">{{ edu.title }}</p>
