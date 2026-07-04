@@ -34,7 +34,7 @@ import { SectionHeadingComponent } from '../../shared/components/section-heading
                 <div class="flex flex-wrap items-center gap-2">
                   <h3 class="font-display text-lg font-bold text-white">{{ exp.role }}</h3>
                   @if (exp.current) {
-                    <span class="rounded-full bg-emerald-400/15 px-2 py-0.5 text-xs font-semibold text-emerald-300">{{ loc.t('experience.current') }}</span>
+                    <span class="rounded-full bg-brand-500/15 px-2 py-0.5 text-xs font-semibold text-brand-300">{{ loc.t('experience.current') }}</span>
                   }
                 </div>
                 <p class="text-sm font-medium text-brand-300">{{ exp.company }}</p>

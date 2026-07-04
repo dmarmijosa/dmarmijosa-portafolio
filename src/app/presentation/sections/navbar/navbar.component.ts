@@ -32,8 +32,8 @@ interface NavLink {
         [class.py-2]="!scrolled()"
         aria-label="Danny Armijos"
       >
-        <a href="#top" class="font-display text-lg font-bold tracking-tight text-white">
-          <span class="text-gradient">DA</span><span class="text-brand-400">.</span>
+        <a href="#top" class="font-display text-lg font-bold uppercase tracking-widest text-paper">
+          <span class="text-gradient">DA</span><span class="text-accent-400">.</span>
         </a>
 
         <ul class="hidden items-center gap-1 lg:flex">

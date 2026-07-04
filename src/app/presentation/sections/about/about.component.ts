@@ -32,7 +32,7 @@ import { IconComponent } from '../../shared/components/icon.component';
               class="layer-pop absolute -bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-xl glass-strong px-4 py-2 text-sm font-semibold text-white shadow-xl"
               style="transform: translateX(-50%) translateZ(50px);"
             >
-              <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
+              <span class="h-2 w-2 rounded-full bg-brand-500"></span>
               {{ profile().name }}
             </figcaption>
           </figure>

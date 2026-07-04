@@ -21,6 +21,7 @@ export const UI_TRANSLATIONS: Record<Locale, UiDictionary> = {
     'lang.label': 'Cambiar idioma a inglés',
 
     'hero.greeting': 'Hola, soy',
+    'hero.eyebrow': 'Software Engineer',
     'hero.viewProjects': 'Ver proyectos',
     'hero.cardRole': 'Full Stack Developer',
 
@@ -94,6 +95,7 @@ export const UI_TRANSLATIONS: Record<Locale, UiDictionary> = {
     'lang.label': 'Switch language to Spanish',
 
     'hero.greeting': "Hi, I'm",
+    'hero.eyebrow': 'Software Engineer',
     'hero.viewProjects': 'View projects',
     'hero.cardRole': 'Full Stack Developer',
 

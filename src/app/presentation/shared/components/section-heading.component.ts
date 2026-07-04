@@ -11,8 +11,8 @@ import { RevealDirective } from '../directives/reveal.directive';
   imports: [RevealDirective],
   template: `
     <div appReveal [class.text-center]="center()" [class.mx-auto]="center()" [class.max-w-2xl]="center()">
-      <p class="font-mono text-sm font-medium text-accent-400">{{ eyebrow() }}</p>
-      <h2 class="mt-3 font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">
+      <p class="eyebrow-label">{{ eyebrow() }}</p>
+      <h2 class="mt-3 font-display text-4xl font-bold uppercase tracking-wide text-paper sm:text-5xl">
         {{ titleLead() }} <span class="text-gradient">{{ titleAccent() }}</span>
       </h2>
       @if (subtitle()) {
