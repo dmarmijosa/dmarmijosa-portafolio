@@ -99,6 +99,111 @@ body::after {
   mask-image: linear-gradient(to bottom, black, transparent 85%);
 }
 
+.cinematic-stage {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background:
+    radial-gradient(90% 72% at 50% 42%, transparent 34%, rgba(3, 5, 6, 0.42) 78%, rgba(3, 5, 6, 0.78) 100%),
+    linear-gradient(90deg, rgba(6, 8, 9, 0.82), transparent 24%, transparent 76%, rgba(6, 8, 9, 0.82));
+}
+
+.cinematic-stage::before {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: min(34vh, 24rem);
+  background:
+    linear-gradient(180deg, transparent, rgba(6, 8, 9, 0.82) 72%, var(--page-bg)),
+    repeating-linear-gradient(92deg, transparent 0 42px, rgba(159, 232, 255, 0.045) 43px 44px, transparent 45px 92px);
+  filter: blur(0.2px);
+  opacity: 0.78;
+}
+
+.cinematic-stage::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 72% 26%, rgba(255, 122, 47, 0.08), transparent 14rem),
+    radial-gradient(circle at 22% 64%, rgba(159, 232, 255, 0.08), transparent 18rem);
+  mix-blend-mode: screen;
+}
+
+.stage-orb {
+  position: absolute;
+  right: clamp(2rem, 12vw, 12rem);
+  top: clamp(7rem, 17vh, 13rem);
+  width: clamp(9rem, 16vw, 17rem);
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 42% 38%, rgba(255, 194, 61, 0.68), rgba(255, 122, 47, 0.34) 36%, rgba(200, 55, 45, 0.16) 58%, transparent 72%);
+  box-shadow:
+    0 0 80px rgba(255, 122, 47, 0.22),
+    inset 0 0 34px rgba(255, 194, 61, 0.16);
+  opacity: 0.42;
+  filter: blur(0.2px);
+  animation: moon-breathe 9s ease-in-out infinite;
+}
+
+.stage-rail {
+  position: absolute;
+  top: 12vh;
+  bottom: 10vh;
+  width: 1px;
+  background: linear-gradient(transparent, rgba(159, 232, 255, 0.18), rgba(255, 122, 47, 0.16), transparent);
+  opacity: 0.58;
+}
+
+.stage-rail-left {
+  left: clamp(1.25rem, 4vw, 4.5rem);
+}
+
+.stage-rail-right {
+  right: clamp(1.25rem, 4vw, 4.5rem);
+}
+
+.stage-code-rain {
+  position: absolute;
+  left: clamp(1.25rem, 4vw, 4.5rem);
+  bottom: 8vh;
+  display: grid;
+  gap: 0.8rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(239, 232, 218, 0.34);
+}
+
+.stage-code-rain span {
+  display: block;
+  transform: translateY(14px);
+  animation: code-rise 7s ease-in-out infinite;
+  animation-delay: calc(var(--i, 0) * 0.55s);
+}
+
+.stage-code-rain span:nth-child(1) { --i: 1; color: rgba(255, 122, 47, 0.54); }
+.stage-code-rain span:nth-child(2) { --i: 2; color: rgba(200, 55, 45, 0.52); }
+.stage-code-rain span:nth-child(3) { --i: 3; color: rgba(159, 232, 255, 0.52); }
+.stage-code-rain span:nth-child(4) { --i: 4; color: rgba(255, 194, 61, 0.5); }
+.stage-code-rain span:nth-child(5) { --i: 5; color: rgba(239, 232, 218, 0.4); }
+
+.stage-vertical {
+  position: absolute;
+  right: clamp(1.1rem, 3vw, 3rem);
+  top: 50%;
+  writing-mode: vertical-rl;
+  transform: translateY(-50%);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.44em;
+  color: rgba(239, 232, 218, 0.28);
+}
+
 ::selection {
   background: var(--sage);
   color: var(--page-bg);
@@ -132,10 +237,14 @@ button:focus-visible {
 
 main {
   isolation: isolate;
+  position: relative;
+  z-index: 10;
+  counter-reset: chapter -1;
 }
 
 main > section {
   scroll-margin-top: 92px;
+  counter-increment: chapter;
 }
 
 /* ============================================================
@@ -230,6 +339,20 @@ section[id]::before {
   background: linear-gradient(90deg, transparent, rgba(159, 232, 255, 0.18), transparent);
 }
 
+main > section[id]:not(#top)::after {
+  content: '0' counter(chapter);
+  position: absolute;
+  right: max(1rem, calc((100vw - 72rem) / 2));
+  top: clamp(3rem, 8vw, 7rem);
+  z-index: -1;
+  font-family: var(--font-display);
+  font-size: clamp(5.5rem, 15vw, 14rem);
+  line-height: 0.78;
+  letter-spacing: -0.04em;
+  color: rgba(239, 232, 218, 0.032);
+  text-shadow: 0 0 60px rgba(159, 232, 255, 0.08);
+}
+
 #top::after,
 #apps::after,
 #contact::after {
@@ -321,6 +444,119 @@ button:hover {
   filter: brightness(1.04);
 }
 
+header nav {
+  position: relative;
+}
+
+header nav::after {
+  content: '';
+  position: absolute;
+  left: 1rem;
+  right: 1rem;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(159, 232, 255, 0.24), rgba(255, 122, 47, 0.22), transparent);
+  opacity: 0.72;
+}
+
+header a[href^='#'] {
+  position: relative;
+}
+
+header a[href^='#']::after {
+  content: '';
+  position: absolute;
+  left: 0.75rem;
+  right: 0.75rem;
+  bottom: 0.4rem;
+  height: 1px;
+  background: var(--sage);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+header a[href^='#']:hover::after,
+header a[href^='#']:focus-visible::after {
+  transform: scaleX(1);
+}
+
+#top dl > div {
+  position: relative;
+  padding-top: 0.9rem;
+  text-align: left;
+}
+
+#top dl > div::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2.2rem;
+  height: 1px;
+  background: linear-gradient(90deg, var(--volt), transparent);
+  opacity: 0.7;
+}
+
+#skills article,
+#certs article,
+#experience article,
+#experience li > div,
+#about article,
+#apps article,
+#contact > div {
+  outline: 1px solid rgba(239, 232, 218, 0.045);
+  outline-offset: -7px;
+}
+
+#projects .grid > a {
+  min-height: 100%;
+}
+
+#projects .grid > a:nth-child(3n + 2) {
+  margin-top: clamp(1.2rem, 4vw, 4rem);
+}
+
+#projects .grid > a:nth-child(3n) {
+  margin-top: clamp(2.2rem, 7vw, 7rem);
+}
+
+#projects .grid > a > div:first-child,
+#apps article > div:first-child > div,
+#about figure {
+  box-shadow:
+    inset 0 0 0 1px rgba(239, 232, 218, 0.06),
+    0 34px 70px -34px rgba(0, 0, 0, 0.9);
+}
+
+#projects .grid > a > div:first-child::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, transparent 36%, rgba(6, 8, 9, 0.62)),
+    repeating-linear-gradient(0deg, rgba(239, 232, 218, 0.045) 0 1px, transparent 1px 8px);
+  mix-blend-mode: overlay;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+#skills .grid article:nth-child(2),
+#certs .grid article:nth-child(3n + 2) {
+  margin-top: clamp(0.85rem, 2.2vw, 2rem);
+}
+
+#skills .grid article:nth-child(3),
+#certs .grid article:nth-child(3n) {
+  margin-top: clamp(1.4rem, 3.4vw, 3.4rem);
+}
+
+#skills .animate-marquee span {
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(239, 232, 218, 0.2) !important;
+}
+
 /* ============================================================
    3D system
    ============================================================ */
@@ -349,6 +585,26 @@ button:hover {
   50% { transform: translate(-4%, 6%); }
   70% { transform: translate(6%, 3%); }
   90% { transform: translate(-3%, 4%); }
+}
+@keyframes moon-breathe {
+  0%, 100% {
+    opacity: 0.34;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    opacity: 0.52;
+    transform: translate3d(-0.8rem, 0.4rem, 0) scale(1.04);
+  }
+}
+@keyframes code-rise {
+  0%, 100% {
+    opacity: 0.22;
+    transform: translate3d(0, 12px, 0);
+  }
+  45%, 60% {
+    opacity: 0.72;
+    transform: translate3d(0, 0, 0);
+  }
 }
 
 @keyframes float-slow {
@@ -452,6 +708,44 @@ button:hover {
 }
 
 @media (max-width: 640px) {
+  .cinematic-stage {
+    opacity: 0.78;
+  }
+
+  .stage-orb {
+    right: -4rem;
+    top: 8rem;
+    width: 13rem;
+  }
+
+  .stage-code-rain,
+  .stage-vertical,
+  .stage-rail {
+    display: none;
+  }
+
+  main > section[id]:not(#top)::after {
+    right: 1rem;
+    top: 3rem;
+    font-size: 6.5rem;
+  }
+
+  #projects .grid > a:nth-child(n),
+  #skills .grid article:nth-child(n),
+  #certs .grid article:nth-child(n) {
+    margin-top: 0;
+  }
+
+  #top dl {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    max-width: 18rem;
+    gap: 1.35rem 1.5rem;
+  }
+
+  #top dl > div {
+    text-align: left;
+  }
+
   body {
     background:
       radial-gradient(circle at 18% 0%, rgba(255, 122, 47, 0.12), transparent 18rem),
@@ -481,4 +775,8 @@ button:hover {
   }
   .reveal { opacity: 1; transform: none; filter: none; }
   body::before { animation: none; }
+  .stage-orb,
+  .stage-code-rain span {
+    animation: none;
+  }
 }

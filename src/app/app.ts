@@ -24,6 +24,19 @@ import { ContactComponent } from './presentation/sections/contact/contact.compon
     ContactComponent,
   ],
   template: `
+    <div class="cinematic-stage" aria-hidden="true">
+      <div class="stage-orb"></div>
+      <div class="stage-rail stage-rail-left"></div>
+      <div class="stage-rail stage-rail-right"></div>
+      <div class="stage-code-rain">
+        <span>Angular</span>
+        <span>NestJS</span>
+        <span>Flutter</span>
+        <span>n8n</span>
+        <span>Agents</span>
+      </div>
+      <div class="stage-vertical">FULL STACK · IA · CLOUD</div>
+    </div>
     <app-navbar />
     <main>
       <app-hero />

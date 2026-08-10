@@ -65,7 +65,7 @@ export class InMemoryPortfolioRepository extends PortfolioRepository {
   private readonly stats: readonly { value: string; label: L }[] = [
     { value: '8+', label: { es: 'Años de experiencia', en: 'Years of experience' } },
     { value: '40', label: { es: 'Certificaciones', en: 'Certifications' } },
-    { value: '13+', label: { es: 'Proyectos en producción', en: 'Projects in production' } },
+    { value: '14+', label: { es: 'Proyectos en producción', en: 'Projects in production' } },
     { value: '2', label: { es: 'Apps publicadas', en: 'Published apps' } },
   ];
 
@@ -105,6 +105,19 @@ export class InMemoryPortfolioRepository extends PortfolioRepository {
 
   // -- Projects (live, every URL verified HTTP 200) --------------------------
   private readonly projects: readonly (Omit<Project, 'description'> & { description: L })[] = [
+    {
+      title: 'BIAN Maps',
+      description: {
+        es: 'Explorador interactivo del BIAN Service Landscape con mapa zoomable tipo sistema solar para navegar áreas de negocio, dominios, service domains, control records y operaciones. Incluye búsqueda, documentación API y acceso MCP.',
+        en: 'Interactive BIAN Service Landscape explorer with a zoomable solar-system map for navigating business areas, domains, service domains, control records and operations. Includes search, API docs and MCP access.',
+      },
+      url: 'https://bian.danny-armijos.com/',
+      category: 'Web App',
+      tech: ['Angular', 'TypeScript', 'API Docs', 'MCP'],
+      featured: true,
+      accent: 'from-slate-900 via-blue-700 to-amber-400',
+      glyph: '◈',
+    },
     {
       title: 'La Bella Italia',
       description: {
