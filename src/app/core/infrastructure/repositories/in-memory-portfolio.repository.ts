@@ -65,7 +65,7 @@ export class InMemoryPortfolioRepository extends PortfolioRepository {
   private readonly stats: readonly { value: string; label: L }[] = [
     { value: '8+', label: { es: 'Años de experiencia', en: 'Years of experience' } },
     { value: '40', label: { es: 'Certificaciones', en: 'Certifications' } },
-    { value: '14+', label: { es: 'Proyectos en producción', en: 'Projects in production' } },
+    { value: '15+', label: { es: 'Proyectos en producción', en: 'Projects in production' } },
     { value: '2', label: { es: 'Apps publicadas', en: 'Published apps' } },
   ];
 
@@ -105,6 +105,19 @@ export class InMemoryPortfolioRepository extends PortfolioRepository {
 
   // -- Projects (live, every URL verified HTTP 200) --------------------------
   private readonly projects: readonly (Omit<Project, 'description'> & { description: L })[] = [
+    {
+      title: 'CAD Engine',
+      description: {
+        es: 'Plataforma de ingeniería y diseño 3D asistida por IA con arquitectura de Triple Motor (FreeCAD, AutoCAD Core Console y Blender 4.x). Servidor MCP para ChatGPT/Claude, renderizado STL interactivo con Three.js, agentes locales y gobernanza de datos GDPR.',
+        en: 'AI-assisted 3D CAD engineering platform powered by a Tri-Engine architecture (FreeCAD, AutoCAD Core Console, and Blender 4.x). Features an MCP server for ChatGPT/Claude, interactive Three.js STL rendering, local agents, and GDPR data governance.',
+      },
+      url: 'https://cadengine.danny-armijos.com/',
+      category: 'IA',
+      tech: ['Angular', 'NestJS', 'Python', 'Three.js', 'MCP', 'Keycloak', 'Docker'],
+      featured: true,
+      accent: 'from-cyan-500 via-blue-600 to-indigo-700',
+      glyph: '🧊',
+    },
     {
       title: 'BIAN Maps',
       description: {
