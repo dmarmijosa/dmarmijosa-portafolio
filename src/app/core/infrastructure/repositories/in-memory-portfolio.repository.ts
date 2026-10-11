@@ -228,7 +228,7 @@ export class InMemoryPortfolioRepository extends PortfolioRepository {
         es: 'Clon de Trello con tableros, listas y tarjetas arrastrables, autenticación y gestión de estado reactiva.',
         en: 'Trello clone with draggable boards, lists and cards, authentication and reactive state management.',
       },
-      url: 'https://danny-armijos.com/trello-clone',
+      url: 'https://danny-armijos.com/trello-clone/',
       category: 'Web App',
       tech: ['Angular', 'Tailwind CSS', 'RxJS'],
       featured: false,
