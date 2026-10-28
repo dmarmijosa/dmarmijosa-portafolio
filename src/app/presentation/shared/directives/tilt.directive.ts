@@ -25,17 +25,18 @@ export class TiltDirective {
   private prefersReducedMotion(): boolean {
     return (
       typeof window !== 'undefined' &&
-      window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+      (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ||
+        window.matchMedia?.('(pointer: coarse)').matches)
     );
   }
 
   protected onEnter(): void {
-    if (this.prefersReducedMotion()) return;
+    if (this.prefersReducedMotion() || this.el.nativeElement.closest('.portfolio-details')) return;
     this.el.nativeElement.style.transition = 'transform 0.08s ease-out';
   }
 
   protected onMove(event: PointerEvent): void {
-    if (this.prefersReducedMotion()) return;
+    if (this.prefersReducedMotion() || this.el.nativeElement.closest('.portfolio-details')) return;
     const host = this.el.nativeElement;
     const rect = host.getBoundingClientRect();
     const px = (event.clientX - rect.left) / rect.width; // 0..1
@@ -51,7 +52,6 @@ export class TiltDirective {
   protected reset(): void {
     const host = this.el.nativeElement;
     host.style.transition = 'transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)';
-    host.style.transform =
-      'perspective(900px) rotateX(0) rotateY(0) translateZ(0)';
+    host.style.transform = 'perspective(900px) rotateX(0) rotateY(0) translateZ(0)';
   }
 }

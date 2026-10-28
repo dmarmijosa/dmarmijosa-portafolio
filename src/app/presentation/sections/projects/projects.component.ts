@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import {
   GetProjectsUseCase,
   ProjectFilter,
@@ -39,7 +33,7 @@ import { SectionHeadingComponent } from '../../shared/components/section-heading
             class="rounded-full px-4 py-1.5 text-sm font-medium transition-all"
             [class]="
               activeFilter() === f
-                ? 'bg-gradient-to-r from-brand-500 to-accent-500 text-white shadow-lg shadow-brand-500/25'
+                ? 'primary-action text-white'
                 : 'border border-white/10 bg-white/5 text-slate-300 hover:bg-white/10'
             "
             [attr.aria-pressed]="activeFilter() === f"
@@ -65,18 +59,25 @@ import { SectionHeadingComponent } from '../../shared/components/section-heading
           >
             <!-- Accent banner -->
             <div
-              class="relative flex h-32 items-center justify-center overflow-hidden rounded-t-2xl bg-gradient-to-br"
+              class="project-art relative flex h-32 items-center justify-center overflow-hidden rounded-t-2xl bg-gradient-to-br"
               [class]="project.accent"
             >
-              <span class="text-5xl drop-shadow-lg transition-transform duration-300 group-hover:scale-125" style="transform: translateZ(50px);">
+              <span
+                class="text-5xl drop-shadow-lg transition-transform duration-300 group-hover:scale-125"
+                style="transform: translateZ(50px);"
+              >
                 {{ project.glyph }}
               </span>
               @if (project.featured) {
-                <span class="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-black/40 px-2.5 py-1 text-xs font-semibold text-white backdrop-blur">
+                <span
+                  class="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-black/40 px-2.5 py-1 text-xs font-semibold text-white backdrop-blur"
+                >
                   <app-icon name="star" [size]="13" /> {{ loc.t('projects.featured') }}
                 </span>
               }
-              <span class="absolute right-3 top-3 rounded-full bg-black/40 px-2.5 py-1 text-xs font-medium text-white backdrop-blur">
+              <span
+                class="absolute right-3 top-3 rounded-full bg-black/40 px-2.5 py-1 text-xs font-medium text-white backdrop-blur"
+              >
                 {{ loc.t('category.' + project.category) }}
               </span>
             </div>
@@ -89,10 +90,16 @@ import { SectionHeadingComponent } from '../../shared/components/section-heading
                   <app-icon name="external" [size]="18" />
                 </span>
               </div>
-              <p class="mt-2 flex-1 text-sm leading-relaxed text-slate-400">{{ project.description }}</p>
+              <p class="mt-2 flex-1 text-sm leading-relaxed text-slate-400">
+                {{ project.description }}
+              </p>
               <ul class="mt-4 flex flex-wrap gap-1.5">
                 @for (tech of project.tech; track tech) {
-                  <li class="rounded-md bg-brand-500/10 px-2 py-0.5 text-xs font-medium text-brand-300">{{ tech }}</li>
+                  <li
+                    class="rounded-md bg-brand-500/10 px-2 py-0.5 text-xs font-medium text-brand-300"
+                  >
+                    {{ tech }}
+                  </li>
                 }
               </ul>
             </div>
@@ -107,7 +114,12 @@ export class ProjectsComponent {
   private readonly getProjects = inject(GetProjectsUseCase);
 
   protected readonly filters: readonly ProjectFilter[] = [
-    'Todos', 'Web App', 'E-commerce', 'Landing', 'IA', 'Móvil',
+    'Todos',
+    'Web App',
+    'E-commerce',
+    'Landing',
+    'IA',
+    'Móvil',
   ];
   protected readonly activeFilter = signal<ProjectFilter>('Todos');
 
@@ -116,6 +128,8 @@ export class ProjectsComponent {
   );
 
   protected filterLabel(filter: ProjectFilter): string {
-    return filter === 'Todos' ? this.loc.t('projects.filter.Todos') : this.loc.t('category.' + filter);
+    return filter === 'Todos'
+      ? this.loc.t('projects.filter.Todos')
+      : this.loc.t('category.' + filter);
   }
 }

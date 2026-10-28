@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { NavbarComponent } from './presentation/sections/navbar/navbar.component';
-import { HeroComponent } from './presentation/sections/hero/hero.component';
+import { NovaLandingComponent } from './presentation/sections/hero/nova-landing.component';
 import { AboutComponent } from './presentation/sections/about/about.component';
 import { SkillsComponent } from './presentation/sections/skills/skills.component';
 import { ProjectsComponent } from './presentation/sections/projects/projects.component';
@@ -13,8 +12,7 @@ import { ContactComponent } from './presentation/sections/contact/contact.compon
   selector: 'app-root',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NavbarComponent,
-    HeroComponent,
+    NovaLandingComponent,
     AboutComponent,
     SkillsComponent,
     ProjectsComponent,
@@ -24,22 +22,8 @@ import { ContactComponent } from './presentation/sections/contact/contact.compon
     ContactComponent,
   ],
   template: `
-    <div class="cinematic-stage" aria-hidden="true">
-      <div class="stage-orb"></div>
-      <div class="stage-rail stage-rail-left"></div>
-      <div class="stage-rail stage-rail-right"></div>
-      <div class="stage-code-rain">
-        <span>Angular</span>
-        <span>NestJS</span>
-        <span>Flutter</span>
-        <span>n8n</span>
-        <span>Agents</span>
-      </div>
-      <div class="stage-vertical">FULL STACK · IA · CLOUD</div>
-    </div>
-    <app-navbar />
-    <main>
-      <app-hero />
+    <app-nova-landing />
+    <main id="portfolio" class="portfolio-details">
       <app-about />
       <app-skills />
       <app-projects />

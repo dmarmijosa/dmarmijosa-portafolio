@@ -32,14 +32,16 @@ import { SectionHeadingComponent } from '../../shared/components/section-heading
             >
               <div class="layer-pop">
                 <div
-                  class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500/80 to-accent-500/80 text-white shadow-lg"
+                  class="accent-icon mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500/80 to-accent-500/80 text-white shadow-lg"
                 >
                   <app-icon [name]="group.icon" [size]="24" />
                 </div>
                 <h3 class="font-display text-lg font-bold text-white">{{ group.title }}</h3>
                 <ul class="mt-4 flex flex-wrap gap-2">
                   @for (skill of group.skills; track skill) {
-                    <li class="rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-medium text-slate-300">
+                    <li
+                      class="rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-medium text-slate-300"
+                    >
                       {{ skill }}
                     </li>
                   }
@@ -51,7 +53,9 @@ import { SectionHeadingComponent } from '../../shared/components/section-heading
       </div>
 
       <!-- Infinite tech marquee -->
-      <div class="relative mt-16 flex select-none overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)]">
+      <div
+        class="relative mt-16 flex select-none overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)]"
+      >
         <div class="flex shrink-0 animate-marquee items-center gap-8 pr-8">
           @for (item of marquee; track $index) {
             <span class="font-display text-xl font-semibold text-slate-600">{{ item }}</span>
@@ -72,8 +76,31 @@ export class SkillsComponent {
   protected readonly groups = computed(() => this.getSkills.execute(this.loc.locale()));
 
   protected readonly marquee = [
-    'Angular', '•', 'NestJS', '•', 'TypeScript', '•', 'Flutter', '•', 'RxJS',
-    '•', 'Signals', '•', 'Node.js', '•', 'PostgreSQL', '•', 'MongoDB', '•',
-    'Docker', '•', 'AWS', '•', 'Tailwind', '•', 'Clean Architecture', '•',
+    'Angular',
+    '•',
+    'NestJS',
+    '•',
+    'TypeScript',
+    '•',
+    'Flutter',
+    '•',
+    'RxJS',
+    '•',
+    'Signals',
+    '•',
+    'Node.js',
+    '•',
+    'PostgreSQL',
+    '•',
+    'MongoDB',
+    '•',
+    'Docker',
+    '•',
+    'AWS',
+    '•',
+    'Tailwind',
+    '•',
+    'Clean Architecture',
+    '•',
   ];
 }

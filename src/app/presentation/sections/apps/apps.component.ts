@@ -42,10 +42,12 @@ import { SectionHeadingComponent } from '../../shared/components/section-heading
                 class="relative h-[26rem] w-[13rem] rounded-[2.5rem] border border-white/10 bg-ink-900 p-3 shadow-2xl shadow-brand-900/60"
               >
                 <!-- notch -->
-                <div class="absolute left-1/2 top-3 z-10 h-5 w-24 -translate-x-1/2 rounded-full bg-black"></div>
+                <div
+                  class="absolute left-1/2 top-3 z-10 h-5 w-24 -translate-x-1/2 rounded-full bg-black"
+                ></div>
                 <!-- screen -->
                 <div
-                  class="layer-pop flex h-full w-full flex-col items-center justify-center gap-5 rounded-[2rem] bg-gradient-to-br p-6 text-center"
+                  class="app-preview layer-pop flex h-full w-full flex-col items-center justify-center gap-5 rounded-[2rem] bg-gradient-to-br p-6 text-center"
                   [class]="app.accent"
                 >
                   <img
@@ -56,7 +58,9 @@ import { SectionHeadingComponent } from '../../shared/components/section-heading
                     class="h-28 w-28 rounded-3xl shadow-xl ring-1 ring-white/30"
                   />
                   <div>
-                    <p class="font-display text-xl font-bold text-white drop-shadow">{{ app.name }}</p>
+                    <p class="font-display text-xl font-bold text-white drop-shadow">
+                      {{ app.name }}
+                    </p>
                     <p class="mt-1 text-sm text-white/85">{{ app.tagline }}</p>
                   </div>
                 </div>
@@ -78,7 +82,9 @@ import { SectionHeadingComponent } from '../../shared/components/section-heading
               <ul class="mt-6 grid gap-2.5 sm:grid-cols-2">
                 @for (feature of app.features; track $index) {
                   <li class="flex items-start gap-2 text-sm text-slate-300">
-                    <span class="mt-0.5 shrink-0 text-accent-400"><app-icon name="check" [size]="16" /></span>
+                    <span class="mt-0.5 shrink-0 text-accent-400"
+                      ><app-icon name="check" [size]="16"
+                    /></span>
                     <span>{{ feature }}</span>
                   </li>
                 }
@@ -86,7 +92,11 @@ import { SectionHeadingComponent } from '../../shared/components/section-heading
 
               <ul class="mt-6 flex flex-wrap gap-1.5">
                 @for (tech of app.tech; track tech) {
-                  <li class="rounded-md bg-brand-500/10 px-2 py-0.5 text-xs font-medium text-brand-300">{{ tech }}</li>
+                  <li
+                    class="rounded-md bg-brand-500/10 px-2 py-0.5 text-xs font-medium text-brand-300"
+                  >
+                    {{ tech }}
+                  </li>
                 }
               </ul>
 
@@ -97,13 +107,17 @@ import { SectionHeadingComponent } from '../../shared/components/section-heading
                     [href]="app.appStoreUrl"
                     target="_blank"
                     rel="noopener"
-                    class="group inline-flex items-center gap-3 rounded-xl border border-white/15 bg-black px-5 py-2.5 text-white transition-transform hover:scale-105"
+                    class="store-link group inline-flex items-center gap-3 rounded-xl border border-white/15 bg-black px-5 py-2.5 text-white transition-transform hover:scale-105"
                     [attr.aria-label]="loc.t('apps.appStoreTop') + ' App Store'"
                   >
                     <app-icon name="apple" [size]="26" />
                     <span class="text-left leading-tight">
-                      <span class="block text-[0.62rem] uppercase tracking-wide text-slate-400">{{ loc.t('apps.appStoreTop') }}</span>
-                      <span class="block font-display text-base font-semibold">{{ loc.t('apps.appStoreBottom') }}</span>
+                      <span class="block text-[0.62rem] uppercase tracking-wide text-slate-400">{{
+                        loc.t('apps.appStoreTop')
+                      }}</span>
+                      <span class="block font-display text-base font-semibold">{{
+                        loc.t('apps.appStoreBottom')
+                      }}</span>
                     </span>
                   </a>
                 }
@@ -112,13 +126,17 @@ import { SectionHeadingComponent } from '../../shared/components/section-heading
                     [href]="app.googlePlayUrl"
                     target="_blank"
                     rel="noopener"
-                    class="group inline-flex items-center gap-3 rounded-xl border border-white/15 bg-black px-5 py-2.5 text-white transition-transform hover:scale-105"
+                    class="store-link group inline-flex items-center gap-3 rounded-xl border border-white/15 bg-black px-5 py-2.5 text-white transition-transform hover:scale-105"
                     [attr.aria-label]="loc.t('apps.googleTop') + ' Google Play'"
                   >
                     <app-icon name="google-play" [size]="24" />
                     <span class="text-left leading-tight">
-                      <span class="block text-[0.62rem] uppercase tracking-wide text-slate-400">{{ loc.t('apps.googleTop') }}</span>
-                      <span class="block font-display text-base font-semibold">{{ loc.t('apps.googleBottom') }}</span>
+                      <span class="block text-[0.62rem] uppercase tracking-wide text-slate-400">{{
+                        loc.t('apps.googleTop')
+                      }}</span>
+                      <span class="block font-display text-base font-semibold">{{
+                        loc.t('apps.googleBottom')
+                      }}</span>
                     </span>
                   </a>
                 }

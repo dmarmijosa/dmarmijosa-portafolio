@@ -11,28 +11,71 @@ import { IconComponent } from '../../shared/components/icon.component';
   selector: 'app-about',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgOptimizedImage, RevealDirective, TiltDirective, IconComponent],
+  styles: `
+    .portrait-column {
+      align-self: start;
+      display: flex;
+      justify-content: center;
+      min-width: 0;
+    }
+    .portrait-card {
+      width: 100%;
+      max-width: 360px;
+      margin: 0;
+      padding: 12px;
+      background: var(--surface-strong);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .portrait-image {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    .portrait-caption {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 52px;
+      padding: 16px 8px 4px;
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 500;
+      line-height: 1.5;
+      text-align: center;
+    }
+    .portrait-status {
+      flex: 0 0 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #9c3928;
+    }
+    @media (min-width: 1024px) {
+      .portrait-column {
+        justify-content: flex-start;
+      }
+    }
+  `,
   template: `
     <section id="about" class="relative mx-auto max-w-6xl px-6 py-24">
       <div class="grid items-start gap-12 lg:grid-cols-[0.85fr_1.15fr]">
         <!-- Portrait -->
-        <div class="scene-3d flex justify-center lg:justify-start" appReveal>
-          <figure
-            appTilt
-            [maxTilt]="9"
-            class="relative w-full max-w-xs rounded-3xl glass-strong border-glow p-3 shadow-2xl shadow-brand-900/50"
-          >
+        <div class="portrait-column" appReveal>
+          <figure class="portrait-card">
             <img
               [ngSrc]="profile().photoUrl"
               width="360"
               height="360"
               [alt]="'Foto de ' + profile().name"
-              class="aspect-square w-full rounded-2xl object-cover"
+              class="portrait-image"
             />
-            <figcaption
-              class="layer-pop absolute -bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-xl glass-strong px-4 py-2 text-sm font-semibold text-white shadow-xl"
-              style="transform: translateX(-50%) translateZ(50px);"
-            >
-              <span class="h-2 w-2 rounded-full bg-brand-500"></span>
+            <figcaption class="portrait-caption">
+              <span class="portrait-status" aria-hidden="true"></span>
               {{ profile().name }}
             </figcaption>
           </figure>
@@ -41,9 +84,12 @@ import { IconComponent } from '../../shared/components/icon.component';
         <!-- Copy + recommendations -->
         <div>
           <div appReveal>
-            <p class="font-mono text-sm font-medium text-accent-400">{{ loc.t('about.eyebrow') }}</p>
+            <p class="font-mono text-sm font-medium text-accent-400">
+              {{ loc.t('about.eyebrow') }}
+            </p>
             <h2 class="mt-3 font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">
-              {{ loc.t('about.titleLead') }} <span class="text-gradient">{{ loc.t('about.titleAccent') }}</span>
+              {{ loc.t('about.titleLead') }}
+              <span class="text-gradient">{{ loc.t('about.titleAccent') }}</span>
             </h2>
             <p class="mt-6 text-lg leading-relaxed text-slate-300">{{ profile().summary }}</p>
             <p class="mt-4 text-base leading-relaxed text-slate-400">{{ loc.t('about.extra') }}</p>
