@@ -19,6 +19,11 @@ export const UI_TRANSLATIONS: Record<Locale, UiDictionary> = {
     'nav.cta': 'Contáctame',
     'lang.toggle': 'EN',
     'lang.label': 'Cambiar idioma a inglés',
+    'legal.home': 'Volver al portafolio de Danny Armijos',
+    'legal.related': 'Documentos legales de VerbDuel',
+    'legal.privacy': 'Política de privacidad',
+    'legal.delete': 'Eliminar cuenta',
+    'legal.table': 'tabla',
 
     'hero.greeting': 'Hola, soy',
     'hero.eyebrow': 'Software Engineer',
@@ -93,6 +98,11 @@ export const UI_TRANSLATIONS: Record<Locale, UiDictionary> = {
     'nav.cta': 'Get in touch',
     'lang.toggle': 'ES',
     'lang.label': 'Switch language to Spanish',
+    'legal.home': 'Back to Danny Armijos portfolio',
+    'legal.related': 'VerbDuel legal documents',
+    'legal.privacy': 'Privacy policy',
+    'legal.delete': 'Delete account',
+    'legal.table': 'table',
 
     'hero.greeting': "Hi, I'm",
     'hero.eyebrow': 'Software Engineer',

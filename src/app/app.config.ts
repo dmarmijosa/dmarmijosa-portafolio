@@ -1,5 +1,5 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withInMemoryScrolling } from '@angular/router';
 
 import { routes } from './app.routes';
 import { PortfolioRepository } from './core/domain/repositories/portfolio.repository';
@@ -8,7 +8,11 @@ import { InMemoryPortfolioRepository } from './core/infrastructure/repositories/
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideRouter(routes),
+    provideRouter(
+      routes,
+      // Legal pages open at the top; in-page #anchors keep working on the home page.
+      withInMemoryScrolling({ scrollPositionRestoration: 'top', anchorScrolling: 'enabled' }),
+    ),
     // Dependency Inversion: bind the domain port to its infrastructure impl.
     { provide: PortfolioRepository, useClass: InMemoryPortfolioRepository },
   ],
